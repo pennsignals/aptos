@@ -1,0 +1,52 @@
+{
+    "title": "Product",
+    "type": "object",
+    "definitions": {
+        "geographical": {
+            "title": "Geographical",
+            "description": "A geographical coordinate",
+            "type": "object",
+            "properties": {
+                "latitude": { "type": "number" },
+                "longitude": { "type": "number" }
+            }
+        }
+    },
+    "properties": {
+        "id": {
+            "description": "The unique identifier for a product",
+            "type": "number"
+        },
+        "name": {
+            "type": "string"
+        },
+        "price": {
+            "type": "number",
+            "minimum": 0,
+            "exclusiveMinimum": true
+        },
+        "tags": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+        },
+        "dimensions": {
+            "title": "Dimensions",
+            "type": "object",
+            "properties": {
+                "length": {"type": "number"},
+                "width": {"type": "number"},
+                "height": {"type": "number"}
+            },
+            "required": ["length", "width", "height"]
+        },
+        "warehouseLocation": {
+            "description": "Coordinates of the warehouse with the product",
+            "$ref": "#/definitions/geographical"
+        }
+    },
+    "required": ["id", "name", "price"]
+}

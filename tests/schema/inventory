@@ -1,0 +1,34 @@
+{
+  "title": "Inventory",
+  "type": "object",
+  "properties": {
+    "required": {
+      "type": "boolean"
+    },
+    "id": {
+      "type": "integer"
+    },
+    "country": {
+      "title": "country",
+      "enum": [ "US", "DE", "GB" ]
+    },
+    "units": {
+      "type": "array",
+      "items": [
+        { "$ref": "#/definitions/kilograms" },
+        { "$ref": "#/definitions/pounds" }
+      ]
+    },
+    "comments": {
+      "type": [ "string", "null" ]
+    }
+  },
+  "definitions": {
+    "kilograms": {
+      "type": "number"
+    },
+    "pounds": {
+      "type": "number"
+    }
+  }
+}

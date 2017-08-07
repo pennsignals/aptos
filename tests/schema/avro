@@ -1,0 +1,17 @@
+{
+  "oneOf": [
+    { "$ref": "#/definitions/array" }
+  ],
+  "definitions": {
+    "array": {
+      "type": "object",
+      "required": [ "type" ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [ "array" ]
+        }
+      }
+    }
+  }
+}
