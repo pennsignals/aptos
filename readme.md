@@ -13,7 +13,7 @@
 
 ## Usage
 
-`aptos` supports validating client-submitted data and generating Avro structured messages from a given JSON Schema document.
+`aptos` supports validating client-submitted data and generates Avro structured messages from a given JSON Schema document.
 
 ```
 usage: aptos [arguments] SCHEMA
@@ -31,7 +31,8 @@ optional arguments:
 Arguments:
   {validate,convert}
     validate          Validate a JSON instance
-    convert           Convert a JSON Schema to a data-interchange format
+    convert           Convert a JSON Schema to a different data-interchange
+                      format
 
 More information on JSON Schema: http://json-schema.org/
 

@@ -30,7 +30,7 @@ def convert(arguments):
 def main():
     parser = argparse.ArgumentParser(description='''
         aptos is a tool for validating client-submitted data using the
-        JSON Schema vocabulary and converting JSON Schema documents to
+        JSON Schema vocabulary and converts JSON Schema documents to
         different data-interchange formats.
     ''', usage='%(prog)s [arguments] SCHEMA', epilog='''
         More information on JSON Schema: http://json-schema.org/''')
@@ -44,7 +44,8 @@ def main():
     validation.set_defaults(func=validate)
 
     conversion = subparsers.add_parser(
-        'convert', help='Convert a JSON Schema to a data-interchange format')
+        'convert', help='''
+        Convert a JSON Schema to a different data-interchange format''')
     conversion.add_argument(
         '-format', type=str, choices=['avro'], help='data-interchange format')
     conversion.set_defaults(func=convert)
