@@ -1,7 +1,7 @@
 [run]
 omit =
-	mantis/__main__.py
-	mantis/parser.py
+	aptos/__main__.py
+	aptos/parser.py
 
 [report]
 show_missing = True
