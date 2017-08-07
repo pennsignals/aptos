@@ -36,20 +36,21 @@ def main():
         More information on JSON Schema: http://json-schema.org/''')
     subparsers = parser.add_subparsers(title='Arguments')
 
-    validation = subparsers.add_parser('validate',
-        help='Validate a JSON instance')
-    validation.add_argument('-instance', type=str, default=json.dumps({}),
+    validation = subparsers.add_parser(
+        'validate', help='Validate a JSON instance')
+    validation.add_argument(
+        '-instance', type=str, default=json.dumps({}),
         help='JSON document being validated')
     validation.set_defaults(func=validate)
 
-    conversion = subparsers.add_parser('convert',
-        help='Convert a JSON Schema to a data-interchange format')
-    conversion.add_argument('-format', type=str, choices=['avro'],
-        help='data-interchange format')
+    conversion = subparsers.add_parser(
+        'convert', help='Convert a JSON Schema to a data-interchange format')
+    conversion.add_argument(
+        '-format', type=str, choices=['avro'], help='data-interchange format')
     conversion.set_defaults(func=convert)
 
-    parser.add_argument('schema', type=str,
-        help='JSON document containing the description')
+    parser.add_argument(
+        'schema', type=str, help='JSON document containing the description')
 
     arguments = parser.parse_args()
     arguments.func(arguments)
