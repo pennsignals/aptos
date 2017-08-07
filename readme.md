@@ -15,10 +15,31 @@
 
 `aptos` supports validating client-submitted data and generating Avro structured messages from a given JSON Schema document.
 
+```
+usage: aptos [arguments] SCHEMA
+
+aptos is a tool for validating client-submitted data using the JSON Schema
+vocabulary and converting JSON Schema documents to different data-interchange
+formats.
+
+positional arguments:
+  schema              JSON document containing the description
+
+optional arguments:
+  -h, --help          show this help message and exit
+
+Arguments:
+  {validate,convert}
+    validate          Validate a JSON instance
+    convert           Convert a JSON Schema to a data-interchange format
+
+More information on JSON Schema: http://json-schema.org/
+
+```
+
 ## Data Validation
 
 Given a JSON Schema document, `aptos` can validate client-submitted data to require that it satisfies a certain number of criteria.
-
 
 ```json
 {
