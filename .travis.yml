@@ -5,9 +5,9 @@ cache: pip
 install:
 - pip install coverage
 - pip install flake8
-- pip install codecov
+- pip install coveralls
 script:
 - flake8 .
 - nosetests -sv --with-coverage --cover-package=aptos
 after_success:
-- codecov
+- coveralls
