@@ -26,6 +26,7 @@
 - [Future Considerations](#future-considerations)
 - [Maintainers](#maintainers)
 - [Contributing](#contributing)
+- [License](#license)
 
 ## Why aptos?
 
@@ -262,3 +263,7 @@ To run tests, execute the following command:
 ## Contributing
 
 Contributions welcome! Please read the [`contributing.json`](contributing.json) file first.
+
+## License
+
+[Apache 2.0](LICENSE) &copy; [Penn Signals](https://github.com/pennsignals)
