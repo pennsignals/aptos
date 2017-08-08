@@ -5,6 +5,7 @@
 <p align="center">
     <a href="https://travis-ci.org/pennsignals/aptos"><img src="https://img.shields.io/travis/pennsignals/aptos.svg?style=flat-square" alt="Build Status"></a>
     <a href="https://coveralls.io/github/pennsignals/aptos"><img src="https://img.shields.io/coveralls/pennsignals/aptos.svg?style=flat-square" alt="Coverage Status"></a>
+    <a href="https://pypi.org/project/aptos"><img src="https://img.shields.io/pypi/v/seven.svg?style=flat-square" alt="PyPI"></a>
 </p>
 
 > Validate client-submitted data using [JSON Schema](http://json-schema.org/) documents and convert JSON Schema documents into different data-interchange formats.
