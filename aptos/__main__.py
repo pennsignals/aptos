@@ -7,14 +7,25 @@ from .visitor import ValidationVisitor
 from .schema.visitor import AvroSchemaVisitor
 
 
+class TermColors:
+
+    GREEN = '\033[92m'
+    RED = '\033[91m'
+    DEFAULT = '\033[0m'
+
+
 def validate(arguments):
     with open(arguments.schema) as fp:
         schema = json.load(fp)
     component = SchemaParser.parse(schema)
+    instance = json.loads(arguments.instance)
     try:
-        component.accept(ValidationVisitor(json.loads(arguments.instance)))
+        component.accept(ValidationVisitor(instance))
     except AssertionError as e:
-        sys.exit('Error: {}'.format(e))
+        sys.exit('{}error{} {!r}'.format(
+            TermColors.RED, TermColors.DEFAULT, e.args[0]))
+    print('{}success{} instance {!r} is valid against the schema {!r}'.format(
+        TermColors.GREEN, TermColors.DEFAULT, instance, arguments.schema))
 
 
 def convert(arguments):
