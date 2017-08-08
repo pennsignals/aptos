@@ -11,5 +11,6 @@ setup(
     entry_points={
         'console_scripts': ['aptos = aptos.__main__:main'],
     },
-    license='License :: OSI Approved :: Apache Software License'
+    license='License :: OSI Approved :: Apache Software License',
+    keywords=['json schema', 'avro', 'validation']
 )
