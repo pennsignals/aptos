@@ -3,6 +3,7 @@ import json
 import sys
 
 from .parser import SchemaParser
+from .primitive import Object
 from .visitor import ValidationVisitor
 from .schema.visitor import AvroSchemaVisitor
 
@@ -32,6 +33,8 @@ def convert(arguments):
     with open(arguments.schema) as fp:
         schema = json.load(fp)
     component = SchemaParser.parse(schema)
+    if not isinstance(component, Object):
+        sys.exit('{}error{} cannot convert schema {!r} into {!r} format, schema must be of type "object"'.format(TermColors.RED, TermColors.DEFAULT, arguments.schema, arguments.format))  # noqa: E501
     Visitor = {
         'avro': AvroSchemaVisitor,
     }[arguments.format]
@@ -41,7 +44,7 @@ def convert(arguments):
 def main():
     parser = argparse.ArgumentParser(description='''
         aptos is a tool for validating client-submitted data using the
-        JSON Schema vocabulary and converts JSON Schema documents to
+        JSON Schema vocabulary and converts JSON Schema documents into
         different data-interchange formats.
     ''', usage='%(prog)s [arguments] SCHEMA', epilog='''
         More information on JSON Schema: http://json-schema.org/''')
@@ -56,7 +59,7 @@ def main():
 
     conversion = subparsers.add_parser(
         'convert', help='''
-        Convert a JSON Schema to a different data-interchange format''')
+        Convert a JSON Schema into a different data-interchange format''')
     conversion.add_argument(
         '-format', type=str, choices=['avro'], help='data-interchange format')
     conversion.set_defaults(func=convert)
