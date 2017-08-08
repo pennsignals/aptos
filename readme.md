@@ -36,6 +36,10 @@
 
 ## Installation
 
+**via pip**
+
+    $ pip install aptos
+
 **via git**
 
     $ git clone https://github.com/pennsignals/aptos.git && cd aptos
