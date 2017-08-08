@@ -7,9 +7,7 @@
     <a href="https://coveralls.io/github/pennsignals/aptos"><img src="https://img.shields.io/coveralls/pennsignals/aptos.svg?style=flat-square" alt="Coverage Status"></a>
 </p>
 
----
-
-`aptos` is a module that parses [JSON Schema](http://json-schema.org/) documents to validate client-submitted data and convert JSON schema documents to Avro schema documents.
+> A module that parses [JSON Schema](http://json-schema.org/) documents to validate client-submitted data and convert JSON schema documents to Avro schema documents.
 
 ## Usage
 
@@ -19,7 +17,7 @@
 usage: aptos [arguments] SCHEMA
 
 aptos is a tool for validating client-submitted data using the JSON Schema
-vocabulary and converting JSON Schema documents to different data-interchange
+vocabulary and converts JSON Schema documents to different data-interchange
 formats.
 
 positional arguments:
@@ -40,7 +38,7 @@ More information on JSON Schema: http://json-schema.org/
 
 ## Data Validation
 
-Given a JSON Schema document, `aptos` can validate client-submitted data to require that it satisfies a certain number of criteria.
+Given a JSON Schema document, `aptos` can validate client-submitted data to ensure that it satisfies a certain number of criteria.
 
 ```json
 {
@@ -150,7 +148,7 @@ record = component.accept(AvroSchemaVisitor())
 print(json.dumps(record, indent=2))
 ```
 
-The preceding code generates the following Avro schema:
+The above code generates the following Avro schema:
 
 ```json
 {
@@ -233,4 +231,4 @@ The preceding code generates the following Avro schema:
 
 | ![Jason Walsh](https://avatars3.githubusercontent.com/u/2184329?v=3&s=128) |
 |----------------------------------------------------------------------------|
-| Jason Walsh [@rightlag](https://github.com/rightlag)                       |
+| [Jason Walsh](https://github.com/rightlag)                                 |
