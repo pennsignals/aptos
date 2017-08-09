@@ -252,7 +252,7 @@ class ResolveVisitor:
         schema = self.context['definitions'][definition]
         reference.value = Creator.create(schema.get('type')).unmarshal(schema)
         # Resolve the value returned from the Creator.
-        self.visit_primitive(reference.value, *args)
+        reference.value.accept(self, *args)
         reference.resolved = True
         return reference
 
