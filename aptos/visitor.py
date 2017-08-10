@@ -161,7 +161,7 @@ class ValidationVisitor:
 
     def visit_reference(self, reference, *args):
         if reference.resolved:  # pragma: no cover
-            reference.value.accept(self.instance, *args)
+            reference.value.accept(self, *args)
 
     def visit_union(self, union, *args):
         self.visit_primitive(union, *args)
