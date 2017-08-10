@@ -6,6 +6,7 @@
     <a href="https://travis-ci.org/pennsignals/aptos"><img src="https://img.shields.io/travis/pennsignals/aptos.svg?style=flat-square" alt="Build Status"></a>
     <a href="https://coveralls.io/github/pennsignals/aptos"><img src="https://img.shields.io/coveralls/pennsignals/aptos.svg?style=flat-square" alt="Coverage Status"></a>
     <a href="https://pypi.org/project/aptos"><img src="https://img.shields.io/pypi/v/seven.svg?style=flat-square" alt="PyPI"></a>
+    <a href="https://gitter.im/aptos-io/Lobby"><img src="https://img.shields.io/gitter/room/aptos/aptos-io.svg?style=flat-square" alt="Gitter"></a>
 </p>
 
 > Validate client-submitted data using [JSON Schema](http://json-schema.org/) documents and convert JSON Schema documents into different data-interchange formats.
@@ -35,6 +36,7 @@
 - Convert JSON Schema documents into different data-interchange formats
 - Simple syntax
 - CLI support for data validation and JSON Schema conversion
+- [Stop Being a "Janitorial" Data Scientist](https://medium.com/@rightlag/stop-being-a-janitorial-data-scientist-5959cccbeac)
 
 ## Installation
 

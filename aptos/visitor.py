@@ -173,7 +173,7 @@ class ResolveVisitor:
         self.context = context
 
     def visit_empty_schema(self, schema, *args):  # pragma: no cover
-        return
+        return schema
 
     def visit_enumeration(self, enumeration, *args):
         return self.visit_primitive(enumeration, *args)
