@@ -2,7 +2,7 @@ from ...primitive import Creator
 from ...visitor import ResolveVisitor
 
 
-class SpecificationResolveVisitor(ResolveVisitor):
+class OpenAPIResolveVisitor(ResolveVisitor):
 
     def __init__(self, context):
         self.context = context

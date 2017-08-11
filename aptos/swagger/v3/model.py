@@ -5,6 +5,10 @@ from ...primitive import Component, Creator, SchemaMap
 
 class Swagger(Component):
 
+    """This is the root document object of the
+    `OpenAPI document <https://swagger.io/specification/#oasDocument>`_.
+    """
+
     def __init__(self, openapi='3.0.0', info=None, servers=None, paths=None,
                  components=None, security=None, tags=None, externalDocs=None):
         self.openapi = openapi
