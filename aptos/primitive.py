@@ -169,6 +169,17 @@ class String(Primitive):
 
 class Array(Primitive):
 
+    class ArrayList(Component, list):
+
+        @classmethod
+        def unmarshal(cls, schema):
+            return cls(
+                Creator.create(element.get('type')).unmarshal(element)
+                for element in schema)
+
+        def accept(self, visitor, *args):
+            return visitor.visit_array_list(self, *args)
+
     def __init__(self, items=None, additionalItems=None, maxItems=0,
                  minItems=0, uniqueItems=False, contains=None, **kwargs):
         super().__init__(**kwargs)
@@ -185,7 +196,7 @@ class Array(Primitive):
         if schema.get('items') is not None:
             schema['items'] = {
                 dict: lambda instance: Creator.create(instance.get('type')).unmarshal(instance),  # noqa: E501
-                list: lambda instance: [Creator.create(element.get('type')).unmarshal(element) for element in instance],  # noqa: E501
+                list: lambda instance: cls.ArrayList.unmarshal(instance),
             }[schema['items'].__class__](schema['items'])
         if schema.get('additionalItems') is not None:
             schema['additionalItems'] = (
@@ -236,12 +247,14 @@ class Object(Primitive):
         self.patternProperties = patternProperties
         self.additionalProperties = EmptySchema() if additionalProperties is None else additionalProperties  # noqa: E501
         self.dependencies = dependencies
-        self.propertyNames = EmptySchema() if properties is None else propertyNames  # noqa: E501
+        self.propertyNames = (
+            EmptySchema() if properties is None else propertyNames)
 
     @classmethod
     def unmarshal(cls, schema):
         schema = deepcopy(schema)
-        schema['properties'] = Properties.unmarshal(schema.get('properties', {}))  # noqa: E501
+        schema['properties'] = (
+            Properties.unmarshal(schema.get('properties', {})))
         if schema.get('additionalProperties') is not None:
             schema['additionalProperties'] = (
                 Creator.create(schema['additionalProperties'].get('type'))
