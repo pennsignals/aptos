@@ -1,6 +1,6 @@
 import re
 
-from .primitive import Component, Creator, Translator
+from .primitive import Creator, Translator
 
 
 class SchemaArrayValidationHandler:

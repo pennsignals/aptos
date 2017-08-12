@@ -1,4 +1,4 @@
-from ..primitive import Array, Component, Object, Reference, Enumeration
+from ..primitive import Array, Object, Reference, Enumeration
 
 
 class AvroSchemaVisitor:
