@@ -102,18 +102,8 @@ class ValidationVisitor:
         self.visit_primitive(array, *args)
 
         instance = self.instance
-        items = [array.items] * len(instance) if isinstance(array.items, Component) else array.items  # noqa: E501
-        for i, element in enumerate(instance):
-            # Determine which subschemas apply to which elements of the array.
-            try:
-                items[i].accept(ValidationVisitor(element), *args)
-            except IndexError:
-                # If "items" is an array of schemas, validation succeeds if
-                # every instance element at a position greater than the size of
-                # "items" validates against "additionalItems".
-                #
-                # http://json-schema.org/latest/json-schema-validation.html#rfc.section.6.10
-                array.additionalItems.accept(ValidationVisitor(element), *args)
+        for element in instance:
+            array.items.accept(self, array.additionalItems)
         if array.maxItems:
             assert len(instance) <= array.maxItems, 'instance %r is not less than, or equal to %r' % (instance, array.maxItems)  # noqa: E501
         assert len(instance) >= array.minItems, 'instance %r is not greater than, or equal to %r' % (instance, array.minItems)  # noqa: E501
@@ -121,6 +111,22 @@ class ValidationVisitor:
             assert len(set(instance)) == len(instance), 'instance %r contains duplicate elements' % (instance,)  # noqa: E501
         # TODO: contains
         array.contains.accept(self, *args)
+
+    def visit_array_list(self, array_list, *args):
+        # TODO: array list
+        instance = self.instance
+        additionalItems = args[0]
+        for i, element in enumerate(instance):
+            # Determine which subschemas apply to which elements of the array.
+            try:
+                array_list[i].accept(ValidationVisitor(element), *args)
+            except IndexError:
+                # If "items" is an array of schemas, validation succeeds if
+                # every instance element at a position greater than the size of
+                # "items" validates against "additionalItems".
+                #
+                # http://json-schema.org/latest/json-schema-validation.html#rfc.section.6.10
+                additionalItems.accept(ValidationVisitor(element), *args)
 
     def visit_properties(self, properties, *args):
         instance = self.instance
@@ -220,13 +226,16 @@ class ResolveVisitor:
 
     def visit_array(self, array, *args):
         array = self.visit_primitive(array, *args)
-        if isinstance(array.items, Component):
-            array.items = array.items.accept(self, *args)
-        else:
-            array.items = [element.accept(self, *args) for element in array.items]  # noqa: E501
+        array.items = array.items.accept(self, *args)
         array.additionalItems = array.additionalItems.accept(self, *args)
         array.contains = array.contains.accept(self, *args)
         return array
+
+    def visit_array_list(self, array_list, *args):
+        for i, element in enumerate(array_list):
+            element = self.visit_primitive(element, *args)
+            array_list[i] = element.accept(self, *args)
+        return array_list
 
     def visit_properties(self, properties, *args):
         for name, member in properties.items():

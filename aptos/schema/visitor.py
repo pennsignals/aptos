@@ -27,13 +27,14 @@ class AvroSchemaVisitor:
         return {'type': 'string'}
 
     def visit_array(self, array, *args):
-        if isinstance(array.items, Component):
-            items = array.items.accept(self, *args)
-        else:
-            items = [element.accept(self, *args) for element in array.items][0]
+        items = array.items.accept(self, *args)
         if 'fields' not in items:
             items = items['type']
         return {'type': 'array', 'items': items}
+
+    def visit_array_list(self, array_list, *args):
+        # TODO: should ArrayList types return unions?
+        return {'type': [element.accept(self, *args).get('type') for element in array_list][0]}  # noqa: E501
 
     def visit_object(self, obj, *args):
         fields = []
