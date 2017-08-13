@@ -267,6 +267,8 @@ To run tests, execute the following command:
 
 Contributions welcome! Please read the [`contributing.json`](contributing.json) file first.
 
+Join our [Slack](https://aptos-io.slack.com) channel!
+
 ## License
 
 [Apache 2.0](LICENSE) &copy; [Penn Signals](https://github.com/pennsignals)
