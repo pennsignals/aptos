@@ -1,6 +1,13 @@
 from copy import deepcopy
 
-from ...primitive import Component, Creator, EmptySchema, Reference, SchemaMap
+from ...primitive import (
+    Component,
+    Creator,
+    EmptySchema,
+    Primitive,
+    Reference,
+    SchemaMap
+)
 
 
 class Unmarshaler:
@@ -20,9 +27,7 @@ class OpenAPI(Component):
                  components=None, security=None, tags=None, externalDocs=None):
         self.openapi = openapi
         self.info = Info() if info is None else info
-        if servers is None:
-            servers = Servers([Server(url='/')])
-        self.servers = servers
+        self.servers = Servers() if servers is None else servers
         self.paths = Paths() if paths is None else paths
         self.components = Components() if components is None else components
         self.security = [] if security is None else list(security)
@@ -34,7 +39,13 @@ class OpenAPI(Component):
     def unmarshal(cls, schema):
         schema = deepcopy(schema)
         schema['info'] = Info.unmarshal(schema['info'])
-        schema['servers'] = Servers.unmarshal(schema.get('servers', []))
+        servers = schema.get('servers', [])
+        # If the servers property is not provided, or is an empty array, the
+        # default value would be a Server Object with a url value of /.
+        schema['servers'] = (
+            Servers([Server(url='/')]) if not servers
+            else Servers.unmarshal(servers)
+        )
         schema['paths'] = Paths.unmarshal(schema['paths'])
         schema['components'] = (
             Components.unmarshal(schema.get('components', {})))
@@ -120,7 +131,8 @@ class Components(Component):
                  securitySchemes=None, links=None, callbacks=None):
         self.schemas = Schemas() if schemas is None else schemas
         self.responses = Responses() if responses is None else responses
-        self.parameters = Parameters() if parameters is None else parameters
+        self.parameters = (
+            ComponentParameters() if parameters is None else parameters)
         self.examples = Examples() if examples is None else examples
         self.requestBodies = (
             RequestBodies() if requestBodies is None else requestBodies)
@@ -136,7 +148,7 @@ class Components(Component):
         schema['schemas'] = Schemas.unmarshal(schema.get('schemas', {}))
         schema['responses'] = Responses.unmarshal(schema.get('responses', {}))
         schema['parameters'] = (
-            Parameters.unmarshal(schema.get('parameters', {})))
+            ComponentParameters.unmarshal(schema.get('parameters', {})))
         schema['examples'] = Examples.unmarshal(schema.get('examples', {}))
         schema['requestBodies'] = (
             RequestBodies.unmarshal(schema.get('requestBodies', {})))
@@ -222,7 +234,7 @@ class Operation(Component):
             Parameters.unmarshal(schema.get('parameters', [])))
         if schema.get('requestBody') is not None:
             schema['requestBody'] = (
-                RequestBody.unmarshal(schema['requestBody']))
+                Unmarshaler.unmarshal(schema['requestBody'], RequestBody))
         schema['responses'] = Responses.unmarshal(schema['responses'])
         schema['callbacks'] = Callbacks.unmarshal(schema.get('callbacks', {}))
         schema['servers'] = Servers.unmarshal(schema.get('servers', []))
@@ -517,7 +529,7 @@ class Discriminator:
         self.mapping = {} if mapping is None else dict(mapping)
 
 
-class XML:
+class XML:  # pragma: no cover
 
     def __init__(self, name='', namespace='', prefix='', attribute=False,
                  wrapped=False):
@@ -667,3 +679,48 @@ class Content(Component, dict):
 
     def accept(self, visitor, *args):
         return visitor.visit_content(self, *args)
+
+
+class ComponentParameters(Component, dict):
+
+    @classmethod
+    def unmarshal(cls, schema):
+        return cls({
+            name: Unmarshaler.unmarshal(member, Parameter)
+            for name, member in schema.items()
+        })
+
+    def accept(self, visitor, *args):
+        return visitor.visit_component_parameters(self, *args)
+
+
+class Schema(Primitive):
+
+    """Other than the JSON Schema subset fields, the following fields MAY be
+    used for further schema documentation.
+    """
+
+    def __init__(self, nullable=False, discriminator=None, readOnly=False,
+                 writeOnly=False, xml=None, externalDocs=None, example=None,
+                 deprecated=False, **kwargs):
+        super().__init__(**kwargs)
+        self.nullable = nullable
+        self.discriminator = (
+            Discriminator() if discriminator is None else discriminator)
+        self.readOnly = readOnly
+        self.writeOnly = writeOnly
+        self.xml = XML() if xml is None else xml
+        self.externalDocs = (
+            ExternalDocumentation() if externalDocs is None else externalDocs)
+        self.example = example
+        self.deprecated = deprecated
+
+    @classmethod
+    def unmarshal(cls, schema):
+        schema = deepcopy(schema)
+        schema['discriminator'] = (
+            Discriminator(**schema.get('discriminator', {})))
+        schema['xml'] = XML(**schema.get('xml', {}))
+        schema['externalDocs'] = (
+            ExternalDocumentation(**schema.get('externalDocs')))
+        return super().unmarshal(schema)

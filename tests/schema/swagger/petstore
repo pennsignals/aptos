@@ -79,17 +79,7 @@
       "post": {
         "description": "Creates a new pet in the store.  Duplicates are allowed",
         "operationId": "addPet",
-        "requestBody": {
-          "description": "Pet to add to the store",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPet"
-              }
-            }
-          }
-        },
+        "requestBody": { "$ref": "#/components/requestBodies/NewPet" },
         "responses": {
           "200": {
             "description": "pet response",
@@ -187,6 +177,19 @@
     }
   },
   "components": {
+    "requestBodies": {
+      "NewPet": {
+        "description": "Pet to add to the store",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/NewPet"
+            }
+          }
+        }
+      }
+    },
     "schemas": {
       "Pet": {
         "type": "object",

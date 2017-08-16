@@ -24,6 +24,11 @@ class OpenAPIVersion3TestCase(unittest.TestCase):
         content = swagger.paths['/pets']['get'].responses['200'].content['application/json']  # noqa: E501
         self.assertTrue(content.schema.items.resolved)
         self.assertTrue(swagger.components.schemas['Pet'].allOf[0].resolved)
+        self.assertTrue(swagger.paths['/pets']['post'].requestBody.resolved)
+        self.assertIsInstance(
+            swagger.paths['/pets']['post'].requestBody.value,
+            model.RequestBody
+        )
 
         with open(os.path.join(BASE_DIR, 'schema', 'swagger', 'uber')) as fp:
             schema = json.load(fp)
@@ -45,6 +50,23 @@ class OpenAPIVersion3TestCase(unittest.TestCase):
             schema = json.load(fp)
         swagger = OpenAPIParser.parse(schema)
 
+        self.assertEqual(len(swagger.servers), 1)
+        self.assertEqual(swagger.servers[0].url, '/')
+
         examples = swagger.paths['/']['get'].responses['200'].content['application/json'].examples  # noqa: E501
         self.assertIsInstance(examples, model.Examples)
         self.assertIsInstance(examples['foo'], model.Example)
+
+        with open(os.path.join(BASE_DIR, 'schema', 'swagger', 'callback')) as fp:  # noqa: E501
+            schema = json.load(fp)
+        swagger = OpenAPIParser.parse(schema)
+
+        callback = swagger.paths['/streams']['post'].callbacks['onData']
+        component = callback['{$request.query.callbackUrl}/data']['post'].requestBody.content['application/json'].schema  # noqa: E501
+        self.assertTrue(component.properties['userData'].resolved)
+
+        self.assertTrue(swagger.paths['/streams']['post'].parameters[0].resolved)  # noqa: E501
+        self.assertIsInstance(
+            swagger.paths['/streams']['post'].parameters[0].value,
+            model.Parameter
+        )
