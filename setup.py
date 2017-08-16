@@ -8,11 +8,14 @@ setup(
     author_email='jason.walsh@uphs.upenn.edu',
     maintainer='Jason Walsh',
     packages=find_packages(),
-    tests_require=['nose'],
-    test_suite='nose.collector',
+    setup_requires=['nose'],
+    tests_require=['coverage'],
     entry_points={
         'console_scripts': ['aptos = aptos.__main__:main'],
     },
-    license='License :: OSI Approved :: Apache Software License',
-    keywords=['json schema', 'avro', 'validation']
+    classifiers=[
+        'License :: OSI Approved :: Apache Software License',
+    ],
+    license='Apache',
+    keywords=['json-schema', 'avro', 'validation', 'data-interchange']
 )
