@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='aptos',
-    version='1.0.1',
+    version='1.0.2',
     url='https://github.com/pennsignals/aptos',
     author='Jason Walsh',
     author_email='jason.walsh@uphs.upenn.edu',
@@ -14,5 +14,5 @@ setup(
         'console_scripts': ['aptos = aptos.__main__:main'],
     },
     license='License :: OSI Approved :: Apache Software License',
-    keywords=['json schema', 'avro', 'validation']
+    keywords=['json-schema', 'avro', 'validation']
 )
