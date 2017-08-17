@@ -10,6 +10,7 @@ setup(
     packages=find_packages(),
     setup_requires=['nose'],
     tests_require=['coverage'],
+    python_requires='>=3.5',
     entry_points={
         'console_scripts': ['aptos = aptos.__main__:main'],
     },
