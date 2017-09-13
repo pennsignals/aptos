@@ -14,5 +14,6 @@ setup(
         'console_scripts': ['aptos = aptos.__main__:main'],
     },
     license='License :: OSI Approved :: Apache Software License',
-    keywords=['json-schema', 'avro', 'validation']
+    keywords=['json-schema', 'avro', 'validation'],
+    python_requires='>=3.5'
 )
