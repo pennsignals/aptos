@@ -123,6 +123,14 @@ JSON Schema [Validation keywords](http://json-schema.org/latest/json-schema-vali
  - **INSTANCE:** JSON document being validated
  - **SCHEMA:** JSON document containing the description
 
+**Example - macOS:**
+
+    $ aptos validate -instance '{"firstName": "John"}' person.json
+
+**Example - Windows:**
+
+    > aptos validate -instance "{\"firstName\": \"John\"}" person.json
+
 | Successful Validation :heavy_check_mark:                                                                 | Unsuccessful Validation :heavy_multiplication_x:                                                         |
 |----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
 | ![](https://user-images.githubusercontent.com/2184329/29053486-5c787966-7bbe-11e7-8fd3-4cb51d87d7d9.png) | ![](https://user-images.githubusercontent.com/2184329/29053538-afcce9c6-7bbe-11e7-8be5-61ac1d876fc1.png) |
