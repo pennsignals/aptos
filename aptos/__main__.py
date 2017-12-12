@@ -1,18 +1,13 @@
 import argparse
 import json
 import sys
+import colorama
 
+from termcolor import colored
 from .parser import SchemaParser
 from .primitive import Object
 from .visitor import ValidationVisitor
 from .schema.visitor import AvroSchemaVisitor
-
-
-class TermColors:
-
-    GREEN = '\033[92m'
-    RED = '\033[91m'
-    DEFAULT = '\033[0m'
 
 
 def validate(arguments):
@@ -23,10 +18,8 @@ def validate(arguments):
     try:
         component.accept(ValidationVisitor(instance))
     except AssertionError as e:
-        sys.exit('{}error{} {!r}'.format(
-            TermColors.RED, TermColors.DEFAULT, e.args[0]))
-    print('{}success{} instance {!r} is valid against the schema {!r}'.format(
-        TermColors.GREEN, TermColors.DEFAULT, instance, arguments.schema))
+        sys.exit(colored('error', 'red') + ' {!r}'.format(e.args[0]))
+    print(colored('success', 'green') + ' instance {!r} is valid against the schema {!r}'.format(instance, arguments.schema))  # noqa: E501
 
 
 def convert(arguments):
@@ -34,7 +27,7 @@ def convert(arguments):
         schema = json.load(fp)
     component = SchemaParser.parse(schema)
     if not isinstance(component, Object):
-        sys.exit('{}error{} cannot convert schema {!r} into {!r} format, schema must be of type "object"'.format(TermColors.RED, TermColors.DEFAULT, arguments.schema, arguments.format))  # noqa: E501
+        sys.exit(colored('error', 'red') + ' cannot convert schema {!r} into {!r} format, schema must be of type "object"'.format(arguments.schema, arguments.format))  # noqa: E501
     Visitor = {
         'avro': AvroSchemaVisitor,
     }[arguments.format]
@@ -42,6 +35,9 @@ def convert(arguments):
 
 
 def main():
+    # colorama works cross-platform to color text output in CLI
+    colorama.init()
+
     parser = argparse.ArgumentParser(description='''
         aptos is a tool for validating client-submitted data using the
         JSON Schema vocabulary and converts JSON Schema documents into
