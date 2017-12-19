@@ -1,6 +1,10 @@
 from setuptools import find_packages, setup
 
 setup(
+    install_requires=[
+        'colorama',
+        'termcolor',
+    ],
     name='aptos',
     version='1.0.2',
     url='https://github.com/pennsignals/aptos',
